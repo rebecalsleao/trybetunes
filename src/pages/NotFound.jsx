@@ -1,9 +1,9 @@
 import React from 'react';
 
-class NotFound extends Component.React {
+class NotFound extends React.Component {
   render() {
     return (
-      <div data-testid com valor page-not-found />
+      <div data-testid="page-not-found" />
     );
   }
 }
