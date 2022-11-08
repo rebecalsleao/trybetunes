@@ -1,6 +1,7 @@
 import React from 'react';
 import { getUser } from '../services/userAPI';
 import Loading from '../pages/Loading';
+import Links from './Link';
 
 class Header extends React.Component {
   state = {
@@ -22,6 +23,7 @@ class Header extends React.Component {
 
       <header data-testid="header-component">
         <p data-testid="header-user-name">{ name }</p>
+        <Links />
       </header>
 
     );
