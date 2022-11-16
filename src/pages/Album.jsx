@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from './MusicCard';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class Album extends React.Component {
@@ -11,7 +10,6 @@ class Album extends React.Component {
     musics: [],
     album: {},
     loading: false,
-    favoriteSongs: [],
   };
 
   async componentDidMount() {
@@ -20,13 +18,11 @@ class Album extends React.Component {
     const musics = await getMusics(id);
     const musicAlbum = musics.filter((music) => music.trackName);
     this.setState({ musics: musicAlbum, album: musics[0] });
-    const favorite = await getFavoriteSongs();
-    this.setState({ loading: false, favoriteSongs: favorite });
+    this.setState({ loading: false });
   }
 
   render() {
-    const { album, musics, loading, favoriteSongs } = this.state;
-    console.log(musics);
+    const { album, musics, loading } = this.state;
 
     return (
       <div data-testid="page-album">
@@ -34,10 +30,8 @@ class Album extends React.Component {
         <p data-testid="artist-name">{ album.artistName }</p>
         <p data-testid="album-name">{ album.collectionName }</p>
         { musics.map((music) => (<MusicCard
-          key={ music.id }
+          key={ music.trackId }
           music={ music }
-          favorite={ favoriteSongs.find((favoriteSong) => (
-            favoriteSong.trackId === music.trackId)) }
         />))}
         <p />
         { loading && <Loading /> }
@@ -49,7 +43,7 @@ class Album extends React.Component {
 Album.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }).isRequired,
   }).isRequired,
 };
